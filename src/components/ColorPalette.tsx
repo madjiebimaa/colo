@@ -71,7 +71,7 @@ export default function ColorPalette({ color }: ColorPaletteProps) {
             </Button>
           </DialogTrigger>
           <DialogContent
-            className="h-screen w-screen"
+            className="h-screen w-screen max-h-none max-w-none sm:rounded-none"
             style={{ backgroundColor: color.hexCode }}
           >
             <DialogHeader>
