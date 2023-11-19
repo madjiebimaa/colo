@@ -1,11 +1,11 @@
 'use client';
 
-import { useColors } from '@/store/color';
+import { useQueryColors } from '@/store/color';
 import ColorPalette from './ColorPalette';
 import Footer from './Footer';
 
 export default function ColorPaletteList() {
-  const colors = useColors();
+  const colors = useQueryColors();
 
   return (
     <div className="flex-1 flex flex-col">

@@ -1,11 +1,12 @@
 'use client';
 
 import { Github } from 'lucide-react';
+import ColorSearch from './ColorSearch';
 import { Button } from './ui/button';
 
 export default function Aside() {
   return (
-    <aside className="md:sticky md:top-0 flex flex-col md:h-screen md:max-w-[300px] pt-6 px-6 pb-12">
+    <aside className="md:sticky md:top-0 flex flex-col space-y-4 md:h-screen md:max-w-[300px] pt-6 px-6 pb-12">
       <header className="space-y-4">
         <p>
           <strong>Colo</strong> is your one-stop destination for all things
@@ -33,6 +34,7 @@ export default function Aside() {
           </Button>
         </div>
       </header>
+      <ColorSearch />
     </aside>
   );
 }
