@@ -8,3 +8,9 @@ export interface Color {
 export type ColorFilterOption = 'heart';
 
 export type ColorFilters = Record<ColorFilterOption, boolean>;
+
+export type RGB = {
+  r: number;
+  g: number;
+  b: number;
+};

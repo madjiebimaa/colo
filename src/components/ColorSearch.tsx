@@ -73,7 +73,7 @@ export default function ColorSearch() {
                 <Input
                   {...field}
                   type="text"
-                  placeholder="Find you true color"
+                  placeholder="Find your true color"
                   autoComplete="off"
                   className="text-xl rounded-full"
                   onChange={handleChange}
@@ -91,6 +91,7 @@ export default function ColorSearch() {
             data-filter="heart"
             aria-label="Toggle heart"
             size="lg"
+            className="rounded-full w-11 px-0"
             onClick={handleClickFilter}
           >
             <Heart />

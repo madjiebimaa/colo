@@ -1,8 +1,8 @@
 'use client';
 
 import { Color } from '@/lib/types';
-import { cn } from '@/lib/utils';
-import { useColorActions, useFavoriteColors } from '@/store/color';
+import { cn, getTopNClosestColors } from '@/lib/utils';
+import { useColorActions, useColors, useFavoriteColors } from '@/store/color';
 import { Check, Copy, Fullscreen, Heart, Paintbrush } from 'lucide-react';
 import { useState } from 'react';
 import { Button } from './ui/button';
@@ -23,6 +23,7 @@ export default function ColorPalette({ color }: ColorPaletteProps) {
   const [colorText, setColorText] = useState(color.name);
   const [isCopied, setIsCopied] = useState(false);
   const favoriteColors = useFavoriteColors();
+  const colors = useColors();
   const colorActions = useColorActions();
 
   const isFavoritedColor = Boolean(
@@ -100,6 +101,20 @@ export default function ColorPalette({ color }: ColorPaletteProps) {
                 {color.code} - {color.hexCode}
               </DialogDescription>
             </DialogHeader>
+            <section className="flex flex-col space-y-2">
+              {getTopNClosestColors(color, colors, 10).map((color) => (
+                <div
+                  key={color.id}
+                  className="flex-1 flex justify-between items-center py-2 px-4 shadow-md"
+                  style={{ backgroundColor: color.hexCode }}
+                >
+                  <p>{color.name}</p>
+                  <p>
+                    {color.code} - {color.hexCode}
+                  </p>
+                </div>
+              ))}
+            </section>
           </DialogContent>
         </Dialog>
         <Button
