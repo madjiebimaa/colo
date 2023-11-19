@@ -42,7 +42,7 @@ export default function ColorPalette({ color }: ColorPaletteProps) {
   };
 
   const handleClickHeart = () => {
-    colorActions.addToFavoriteColors(color.id);
+    colorActions.toggleFavoriteColors(color.id);
   };
 
   return (

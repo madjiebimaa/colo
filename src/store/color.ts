@@ -1,19 +1,19 @@
-import { Color } from '@/lib/types';
+import { Color, ColorFilterOption } from '@/lib/types';
 import { create } from 'zustand';
 import colors from '../data/vinilex-colors.json';
 
 type ColorState = {
   currentColor: Color | null;
   colors: Color[];
-  favoriteColors: Color['id'][];
   queryColors: Color[];
+  favoriteColors: Color['id'][];
 };
 
 type ColorActions = {
   actions: {
     selectColor: (color: Color) => void;
-    addToFavoriteColors: (id: Color['id']) => void;
-    searchColors: (name: Color['name']) => void;
+    toggleFavoriteColors: (id: Color['id']) => void;
+    searchColors: (name: Color['name'], filters?: ColorFilterOption[]) => void;
   };
 };
 
@@ -28,14 +28,43 @@ const colorStore = create<ColorState & ColorActions>()((set, get) => ({
   ...initialState,
   actions: {
     selectColor: (color) => set({ currentColor: color }),
-    addToFavoriteColors: (id) =>
-      set((state) => ({ favoriteColors: [...state.favoriteColors, id] })),
-    searchColors: (name) =>
-      set((state) => ({
-        queryColors: state.colors.filter((color) =>
+    toggleFavoriteColors: (id) =>
+      set((state) => {
+        const isIDExist = state.favoriteColors.find(
+          (colorID) => colorID === id
+        );
+
+        let favoriteColors;
+        if (isIDExist) {
+          favoriteColors = state.favoriteColors.filter(
+            (colorID) => colorID !== id
+          );
+        } else {
+          favoriteColors = [...state.favoriteColors, id];
+        }
+
+        return {
+          favoriteColors,
+        };
+      }),
+    searchColors: (name, filters = []) =>
+      set((state) => {
+        let filteredQueryColors = state.colors.filter((color) =>
           color.name.toLowerCase().includes(name)
-        ),
-      })),
+        );
+
+        if (filters.length !== 0) {
+          filteredQueryColors = filteredQueryColors.filter((color) => {
+            if (filters.includes('heart')) {
+              return state.favoriteColors.includes(color.id);
+            }
+          });
+        }
+
+        return {
+          queryColors: filteredQueryColors,
+        };
+      }),
   },
 }));
 

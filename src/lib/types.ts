@@ -4,3 +4,7 @@ export interface Color {
   code: string;
   hexCode: string;
 }
+
+export type ColorFilterOption = 'heart';
+
+export type ColorFilters = Record<ColorFilterOption, boolean>;
