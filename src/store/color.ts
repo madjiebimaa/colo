@@ -1,3 +1,4 @@
+import { COLORS } from '@/lib/constants';
 import { Color, ColorFilterOption } from '@/lib/types';
 import { create } from 'zustand';
 import colors from '../data/vinilex-colors.json';
@@ -14,6 +15,7 @@ type ColorActions = {
     selectColor: (color: Color) => void;
     toggleFavoriteColors: (id: Color['id']) => void;
     searchColors: (name: Color['name'], filters?: ColorFilterOption[]) => void;
+    addColor: (name: Color['name'], hexCode: Color['hexCode']) => void;
   };
 };
 
@@ -50,7 +52,7 @@ const colorStore = create<ColorState & ColorActions>()((set, get) => ({
     searchColors: (name, filters = []) =>
       set((state) => {
         let filteredQueryColors = state.colors.filter((color) =>
-          color.name.toLowerCase().includes(name)
+          color.name.toLowerCase().includes(name.toLowerCase())
         );
 
         if (filters.length !== 0) {
@@ -65,6 +67,18 @@ const colorStore = create<ColorState & ColorActions>()((set, get) => ({
           queryColors: filteredQueryColors,
         };
       }),
+    addColor: (name, hexCode) =>
+      set((state) => ({
+        colors: [
+          {
+            id: crypto.randomUUID(),
+            name,
+            hexCode: `#${hexCode.toUpperCase()}`,
+            code: COLORS.CREATION,
+          },
+          ...state.colors,
+        ],
+      })),
   },
 }));
 

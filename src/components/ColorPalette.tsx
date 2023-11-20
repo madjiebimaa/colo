@@ -1,9 +1,18 @@
 'use client';
 
+import { COLORS } from '@/lib/constants';
 import { Color } from '@/lib/types';
 import { cn, getTopNClosestColors } from '@/lib/utils';
 import { useColorActions, useColors, useFavoriteColors } from '@/store/color';
-import { Check, Copy, Fullscreen, Heart, Paintbrush } from 'lucide-react';
+import {
+  Building,
+  Check,
+  Copy,
+  Fullscreen,
+  Heart,
+  Paintbrush,
+  PersonStanding,
+} from 'lucide-react';
 import { useState } from 'react';
 import { Button } from './ui/button';
 import {
@@ -46,8 +55,32 @@ export default function ColorPalette({ color }: ColorPaletteProps) {
     colorActions.toggleFavoriteColors(color.id);
   };
 
+  const handleMouseEnterPreview = () => {
+    if (color.code === COLORS.CREATION) {
+      setColorText(color.name);
+    } else {
+      setColorText(color.code);
+    }
+  };
+
+  const handleMouseLeavePreview = () => {
+    setColorText(color.name);
+  };
+
   return (
     <div className="relative group/palette-card flex flex-col justify-center items-center space-y-2">
+      <Button
+        disabled
+        variant="ghost"
+        size="icon"
+        className="absolute top-0 left-0 rounded-full"
+      >
+        {color.code === COLORS.CREATION ? (
+          <PersonStanding className="shrink-0 h-4 w-4" />
+        ) : (
+          <Building className="shrink-0 h-4 w-4" />
+        )}
+      </Button>
       <Button
         variant="ghost"
         size="icon"
@@ -64,8 +97,8 @@ export default function ColorPalette({ color }: ColorPaletteProps) {
       <div
         className="h-20 w-20 rounded-full shadow-md"
         style={{ backgroundColor: color.hexCode }}
-        onMouseEnter={() => setColorText(color.code)}
-        onMouseLeave={() => setColorText(color.name)}
+        onMouseEnter={handleMouseEnterPreview}
+        onMouseLeave={handleMouseLeavePreview}
       />
       <p>{colorText}</p>
       <div className="invisible group-hover/palette-card:visible flex items-center rounded-full bg-secondary text-secondary-foreground p-1 space-x-1">
@@ -92,7 +125,7 @@ export default function ColorPalette({ color }: ColorPaletteProps) {
             </Button>
           </DialogTrigger>
           <DialogContent
-            className="h-screen w-screen max-h-none max-w-none sm:rounded-none"
+            className="h-full w-full max-h-none max-w-none sm:rounded-none"
             style={{ backgroundColor: color.hexCode }}
           >
             <DialogHeader>
